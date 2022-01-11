@@ -21,6 +21,9 @@ func main() {
 		"install": func() (cli.Command, error) {
 			return &cmd.InstallCommand{}, nil
 		},
+		"use": func() (cli.Command, error) {
+			return &cmd.UseCommand{}, nil
+		},
 	}
 
 	exitStatus, err := c.Run()

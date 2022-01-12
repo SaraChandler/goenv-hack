@@ -24,9 +24,9 @@ func Use(version string) error {
 	}
 
 	// Remove link
-	_ = os.Remove(InstallBin)
+	_ = os.Remove(getPath(InstallBin))
 
 	// Create new symlink
-	installedBin := filepath.Join(InstallVersionsDir, version, "bin")
-	return os.Symlink(installedBin, InstallBin)
+	installedBin := filepath.Join(getPath(InstallVersionsDir), version, "go", "bin")
+	return os.Symlink(installedBin, getPath(InstallBin))
 }

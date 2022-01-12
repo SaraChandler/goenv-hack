@@ -12,45 +12,45 @@ import (
 	"github.com/hashicorp/errwrap"
 )
 
-// Simple download function to download a given url to a path
-func download(url string, path string) error {
+// Simple download function to download a given url to a directory
+func download(url string, path string) (string, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return errwrap.Wrapf("error in Download: {{err}}", err)
+		return "", errwrap.Wrapf("error in Download: {{err}}", err)
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return err
+		return "", err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("expected 200, got %d", resp.StatusCode)
+		return "", fmt.Errorf("expected 200, got %d", resp.StatusCode)
 	}
 	defer resp.Body.Close()
 
 	// Create path and file
 	err = os.MkdirAll(path, 0755)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	filename := filepath.Base(url)
 	fullFilename := filepath.Join(path, filename)
 	file, err := os.Create(fullFilename)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	size, err := io.Copy(file, resp.Body)
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer file.Close()
 
 	fmt.Printf("Downloaded %s, size: %d\n", fullFilename, size)
 
-	return nil
+	return fullFilename, nil
 }
 
 // Extract a given compressed file to a destination directory
@@ -82,7 +82,7 @@ func extract(source string, destination string) error {
 
 		switch header.Typeflag {
 		case tar.TypeDir:
-			err = os.Mkdir(destPath, 0755)
+			err = os.MkdirAll(destPath, 0755)
 			if err != nil {
 				return err
 			}
@@ -112,7 +112,12 @@ func CheckInit() error {
 	return nil
 }
 
-// create InstallBaseDir and add InstallBin to path
+// create InstallBaseDir and add getPath(InstallBin) to path
 func Init() error {
 	return nil
+}
+
+func getPath(path string) string {
+	home := os.Getenv("HOME")
+	return filepath.Join(home, path)
 }

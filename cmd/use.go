@@ -1,6 +1,10 @@
 package cmd
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/SaraChandler/goenv-hack/pkg"
+)
 
 type UseCommand struct {
 	use string
@@ -24,8 +28,17 @@ func (i *UseCommand) Run(args []string) int {
 	version := args[len(args)-1]
 	// goenv-hack use 1.16
 	fmt.Printf("Using go %s\n", version)
-	// err := pkg.ValidateVersion(version)
 
-	//err = pkg.Install(version)
+	err := pkg.ValidateVersion(version)
+	if err != nil {
+		fmt.Println(err)
+		return 1
+	}
+
+	err = pkg.Use(version)
+	if err != nil {
+		fmt.Println(err)
+		return 1
+	}
 	return 0
 }

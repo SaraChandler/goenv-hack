@@ -28,9 +28,9 @@ func (i *InstallCommand) Run(args []string) int {
 	version := args[len(args)-1]
 	// goenv-hack install 1.16
 	fmt.Printf("Installing go %s\n", version)
-	err := pkg.ValidateVersion(version)
+	//err := pkg.ValidateVersion(version)
 
-	err = pkg.Install(version)
+	err := pkg.Install(version)
 	if err != nil {
 		return 1
 	}

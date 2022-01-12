@@ -13,7 +13,7 @@ import (
 )
 
 // Simple download function to download a given url to a path
-func Download(url string, path string) error {
+func download(url string, path string) error {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -54,7 +54,7 @@ func Download(url string, path string) error {
 }
 
 // Extract a given compressed file to a destination directory
-func Extract(source string, destination string) error {
+func extract(source string, destination string) error {
 	gzipStream, err := os.Open(source)
 	if err != nil {
 		return err

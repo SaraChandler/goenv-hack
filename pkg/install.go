@@ -50,7 +50,7 @@ func isVersionInList(version string, list []string) (bool, error) {
 
 // List versions available to download from the internet
 func listDownloadableVersions() ([]string, error) {
-	return []string{"1.16.8"}, nil
+	return []string{}, nil
 }
 
 // Make a download url for a given version, os, and arch

@@ -3,6 +3,7 @@ package pkg
 import (
 	"fmt"
 	"log"
+	"runtime"
 )
 
 // install a specified version of go
@@ -16,7 +17,7 @@ func Install(version string) error {
 		return err
 	}
 	// list downloadable versions
-  list, err := ListDownloadableVersions();
+  list, err := listDownloadableVersions();
 
 	if err != nil {
 		return err
@@ -25,17 +26,20 @@ func Install(version string) error {
 	fmt.Printf("list downloadable version response = %s\n %s", list, err)
 
 	// find version in the list that matches our version
-  err := IsVersionDownloadable(version, list)
+  downloadable, err := isVersionInList(version, list)
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
-	fmt.Printf("IsVersionDownloadable returns= %s\n", err)
+	fmt.Printf("IsVersionDownloadable returns= %s\n %s", downloadable, err)
 	// download it
+	os := runtime.GOOS
+	arch := runtime.GOARCH
+	url := makeDownloadURL(version, os, arch)
 	// extract it
 	return nil
 }
 
-func IsVersionDownloadable(version string, list []string) (bool, error) {
+func isVersionInList(version string, list []string) (bool, error) {
 	for _, n := range list {
 		if version == n {
 				return true, nil
@@ -45,12 +49,12 @@ func IsVersionDownloadable(version string, list []string) (bool, error) {
 }
 
 // List versions available to download from the internet
-func ListDownloadableVersions() ([]string, error) {
+func listDownloadableVersions() ([]string, error) {
 	return []string{"1.16.8"}, nil
 }
 
 // Make a download url for a given version, os, and arch
-func MakeDownloadURL(version string, os string, architecture string) string {
+func makeDownloadURL(version string, os string, architecture string) string {
 	url := fmt.Sprintf("https://go.dev/dl/go%s.%s-%s.tar.gz", version, os, architecture)
 	return url
 }

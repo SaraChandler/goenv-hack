@@ -2,7 +2,10 @@ module github.com/SaraChandler/goenv-hack
 
 go 1.17
 
-require github.com/mitchellh/cli v1.1.2
+require (
+	github.com/coreos/go-semver v0.3.0
+	github.com/mitchellh/cli v1.1.2
+)
 
 require (
 	github.com/Masterminds/goutils v1.1.0 // indirect

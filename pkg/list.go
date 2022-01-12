@@ -1,14 +1,15 @@
 package pkg
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
-	"path/filepath"
+	"strings"
 )
 
 func ListInstalledVersions() ([]string, error) {
 	versions := []string{}
-	files, err := ioutil.ReadDir(InstallVersionsDir)
+	files, err := ioutil.ReadDir(getPath(InstallVersionsDir))
 	if err != nil {
 		return []string{}, err
 	}
@@ -22,14 +23,15 @@ func ListInstalledVersions() ([]string, error) {
 }
 
 func GetActiveVersion() (string, error) {
-	linked, err := os.Readlink(InstallBin)
+	linked, err := os.Readlink(getPath(InstallBin))
 	if err != nil {
-		return "", err
+		fmt.Println(err)
+		linked = ""
 	}
 
-	pathParts := filepath.SplitList(linked)
-	if len(pathParts) > 2 {
-		return pathParts[len(pathParts)-2], nil
+	pathParts := strings.Split(linked, "/")
+	if len(pathParts) > 3 {
+		return pathParts[len(pathParts)-3], nil
 	}
 
 	return "", nil

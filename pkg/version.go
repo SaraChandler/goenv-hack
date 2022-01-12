@@ -4,7 +4,8 @@ import "github.com/coreos/go-semver/semver"
 
 // Validate a given version string
 func ValidateVersion(version string) error {
-	return nil
+	_, err := semver.NewVersion(version)
+	return err
 }
 
 // Compare version equality

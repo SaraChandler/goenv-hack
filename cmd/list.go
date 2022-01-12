@@ -3,7 +3,9 @@ package cmd
 import (
 	//"fmt"
 
-	"github.com/mitchellh/cli"
+	"fmt"
+
+	"github.com/SaraChandler/goenv-hack/pkg"
 )
 
 type ListCommand struct {
@@ -11,7 +13,7 @@ type ListCommand struct {
 }
 
 func (i *ListCommand) Help() string {
-	return "List <version>\n"
+	return "list\n"
 }
 
 func (i *ListCommand) Synopsis() string {
@@ -19,17 +21,27 @@ func (i *ListCommand) Synopsis() string {
 }
 
 func (i *ListCommand) Run(args []string) int {
-	// goenv-hack install
-	// if len(args) == 0 {
-	// 	fmt.Print(i.Help())
-	// 	return 0
-	// }
-  return cli.RunResultHelp
-	//version := args[len(args)-1]
-	// goenv-hack install 1.16
-	//fmt.Printf("Listing go versions")
-	// err := pkg.ValidateVersion(version)
+	installedVersions, err := pkg.ListInstalledVersions()
+	if err != nil {
+		fmt.Println(err)
+		return 1
+	}
 
-	//err = pkg.Install(version)
-	//return 0
+	activeVersion, err := pkg.GetActiveVersion()
+	if err != nil {
+		fmt.Println(err)
+		return 1
+	}
+
+	fmt.Println("Installed Go Versions:")
+	for _, v := range installedVersions {
+		isActive := ""
+		if activeVersion == v {
+			isActive = " * active version"
+		}
+
+		fmt.Printf("%s%s\n", v, isActive)
+	}
+
+	return 0
 }

@@ -14,12 +14,12 @@ func Install(version string) error {
 }
 
 // List versions available to download from the internet
-func ListDownloadableVersions() ([]string, error) {
+func listDownloadableVersions() ([]string, error) {
 	return []string{}, nil
 }
 
 // Make a download url for a given version, os, and arch
-func MakeDownloadURL(version string, os string, architecture string) string {
+func makeDownloadURL(version string, os string, architecture string) string {
 	url := fmt.Sprintf("https://go.dev/dl/go%s.%s-%s.tar.gz", version, os, architecture)
 	return url
 }

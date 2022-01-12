@@ -1,6 +1,7 @@
 package pkg
 
 const InstallBaseDir string = "/usr/local/goenv-hack/"
+const InstallVersionsDir string = "/usr/local/goenv-hack/versions/"
 
 // /usr/local/goenv-hack/<version>/bin
 // link /usr/local/gonev-hack/bin -> /usr/local/goenv-hack/<version>/bin

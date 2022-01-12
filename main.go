@@ -24,6 +24,9 @@ func main() {
 		"use": func() (cli.Command, error) {
 			return &cmd.UseCommand{}, nil
 		},
+		"list": func() (cli.Command, error) {
+			return &cmd.ListCommand{}, nil
+		},
 	}
 
 	exitStatus, err := c.Run()

@@ -14,7 +14,7 @@ the installed version will match the host machine.
 ### Use
 Change currently linked Go version to the specified installed version.
 
-Usage: `goenv-hack install <version>`
+Usage: `goenv-hack use <version>`
 If the given version is not installed, it will be installed automatically.
 
 

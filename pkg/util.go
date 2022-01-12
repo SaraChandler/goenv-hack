@@ -1,6 +1,8 @@
 package pkg
 
 import (
+	"archive/tar"
+	"compress/gzip"
 	"fmt"
 	"io"
 	"net/http"
@@ -53,6 +55,53 @@ func Download(url string, path string) error {
 
 // Extract a given compressed file to a destination directory
 func Extract(source string, destination string) error {
+	gzipStream, err := os.Open(source)
+	if err != nil {
+		return err
+	}
+
+	tarStream, err := gzip.NewReader(gzipStream)
+	if err != nil {
+		return err
+	}
+
+	tarReader := tar.NewReader(tarStream)
+
+	for true {
+		header, err := tarReader.Next()
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return err
+		}
+
+		destPath := filepath.Join(destination, header.Name)
+
+		switch header.Typeflag {
+		case tar.TypeDir:
+			err = os.Mkdir(destPath, 0755)
+			if err != nil {
+				return err
+			}
+		case tar.TypeReg:
+			outFile, err := os.Create(destPath)
+			if err != nil {
+				return err
+			}
+			_, err = io.Copy(outFile, tarReader)
+			if err != nil {
+				return err
+			}
+			outFile.Close()
+
+		default:
+			return err
+		}
+
+	}
 	return nil
 }
 

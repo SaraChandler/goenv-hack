@@ -2,7 +2,6 @@ package pkg
 
 import (
 	"testing"
-
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,7 +22,22 @@ func TestCompareVersions(t *testing.T) {
 
 	compareSame, err := CompareVersions(versionA, versionB)
 	expectSame := 0
-	assert.Equal(t, compareSame, expectSame, "expect no error for valid version")
+	assert.Equal(t, compareSame, expectSame, "expect return 0 for same version number")
 	assert.Nil(t, err, "expect no error for compared versions")
 
+	versionA = "1.16.5"
+	versionB = "1.16.8"
+
+	compareLess, err := CompareVersions(versionA, versionB)
+	expectLess := -1
+	assert.Equal(t, compareLess, expectLess, "expect return -1 for A < B")
+	assert.Nil(t, err, "expect no error for compared versions")
+
+	versionA = "1.16.8"
+	versionB = "1.16.5"
+
+	compareGreater, err := CompareVersions(versionA, versionB)
+	expectGreater := 1
+	assert.Equal(t, compareGreater, expectGreater, "expect return 1 for A > B")
+	assert.Nil(t, err, "expect no error for compared versions")
 }

@@ -21,13 +21,16 @@ func (i *UseCommand) Synopsis() string {
 func (i *UseCommand) Run(args []string) int {
 	// goenv-hack install
 	if len(args) == 0 {
-		fmt.Print(i.Help())
+		err := pkg.UseAuto()
+		if err != nil {
+			fmt.Println("Unable to automatically choose a version. Please specify a version to use.")
+			return 1
+		}
 		return 0
 	}
 
 	version := args[len(args)-1]
 	// goenv-hack use 1.16
-	fmt.Printf("Using go %s\n", version)
 
 	err := pkg.ValidateVersion(version)
 	if err != nil {

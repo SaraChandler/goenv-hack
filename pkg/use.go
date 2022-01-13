@@ -15,13 +15,9 @@ func Use(version string) error {
 		return err
 	}
 
-	isInstalled, err := isVersionInList(version, installed)
-	if err != nil {
-		return err
-	}
-
+	isInstalled, versionFound := isVersionInList(version, installed)
 	if !isInstalled {
-		err = Install(version)
+		err = Install(versionFound)
 		if err != nil {
 			return err
 		}
@@ -31,8 +27,8 @@ func Use(version string) error {
 	_ = os.Remove(getPath(InstallBin))
 
 	// Create new symlink
-	installedBin := filepath.Join(getPath(InstallVersionsDir), version, "go", "bin")
-	fmt.Printf("Using go version %s\n", version)
+	installedBin := filepath.Join(getPath(InstallVersionsDir), versionFound, "go", "bin")
+	fmt.Printf("Using go version %s\n", versionFound)
 	return os.Symlink(installedBin, getPath(InstallBin))
 }
 

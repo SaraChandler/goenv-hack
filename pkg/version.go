@@ -22,22 +22,23 @@ func CompareVersions(versionA string, versionB string) (int, error) {
 
 	return vA.Compare(*vB), nil
 }
+
 //fuzzyCompare("1.16.5", "1.16") == true, fuzzyCompare("1.15.9", "1.16") == false
-func fuzzyCompare(versionA string, versionB string) (bool, error) {
+func fuzzyCompare(versionA string, versionB string) bool {
 	shortVersion := ""
-	if (len(versionA) > len(versionB)) {
+	if len(versionA) > len(versionB) {
 		shortVersion = versionB
 	} else {
 		shortVersion = versionA
 	}
 
 	for i := 0; i < len(shortVersion); i++ {
-		if (versionA[i] != versionB[i]){
-			return false, nil
+		if versionA[i] != versionB[i] {
+			return false
 		}
-		if (versionA[i] == versionB[i] && i == 3) {
-			return true, nil
+		if versionA[i] == versionB[i] && i == 3 {
+			return true
 		}
 	}
-	return false, nil
+	return false
 }

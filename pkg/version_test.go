@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"testing"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -42,38 +43,34 @@ func TestCompareVersions(t *testing.T) {
 	assert.Nil(t, err, "expect no error for compared versions")
 }
 
-func TestfuzzyCompare(t *testing.T){
+func TestfuzzyCompare(t *testing.T) {
 	versionA := "1.16"
 	versionB := "1.16.9"
 
-	wantTrue, err := fuzzyCompare(versionA, versionB)
+	wantTrue := fuzzyCompare(versionA, versionB)
 	gotTrue := true
 
 	assert.Equal(t, wantTrue, gotTrue, "expect fuzzy match to be true")
-	assert.Nil(t, err, "expect err to be nil")
 
 	versionA = "1.16.9"
 	versionB = "1.15"
 
-	wantFalse, err := fuzzyCompare(versionA, versionB)
+	wantFalse := fuzzyCompare(versionA, versionB)
 	gotFalse := false
 
 	assert.Equal(t, wantFalse, gotFalse, "expect fuzzy match to be false")
-	assert.Nil(t, err, "expect error to be nil")
 
 	versionA = "1.14"
 	versionB = "1.15.6"
 
-	wantFalse, err = fuzzyCompare(versionA, versionB)
+	wantFalse = fuzzyCompare(versionA, versionB)
 
 	assert.Equal(t, wantFalse, gotFalse, "expect fuzzy match to be false")
-	assert.Nil(t, err, "expect error to be nil")
 
 	versionA = "1.1"
 	versionB = "1.15.6"
 
-	wantFalse, err = fuzzyCompare(versionA, versionB)
+	wantFalse = fuzzyCompare(versionA, versionB)
 
 	assert.Equal(t, wantFalse, gotFalse, "expect fuzzy match to be false")
-	assert.Nil(t, err, "expect error to be nil")
 }

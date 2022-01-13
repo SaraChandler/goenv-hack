@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"path/filepath"
 	"runtime"
+	"strings"
+
+	"github.com/coreos/go-semver/semver"
 )
 
 // install a specified version of go
@@ -23,13 +26,25 @@ func Install(version string) error {
 	return err
 }
 
-func isVersionInList(version string, list []string) (bool, error) {
+func isVersionInList(version string, list []string) (bool, string) {
+	versionParts := strings.Split(version, ".")
+	twoPartVersion := len(versionParts) == 2
+	highestVersion := semver.New("0.0.0")
 	for _, n := range list {
 		if version == n {
-			return true, nil
+			return true, n
 		}
+
+		if twoPartVersion && fuzzyCompare(version, n) {
+			highestVersion = semver.New(n)
+		}
+
 	}
-	return false, fmt.Errorf("Unable to find matching version: %v", version)
+
+	if twoPartVersion && highestVersion.String() != "0.0.0" {
+		return true, highestVersion.String()
+	}
+	return false, ""
 }
 
 // List versions available to download from the internet

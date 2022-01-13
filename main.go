@@ -27,6 +27,9 @@ func main() {
 		"list": func() (cli.Command, error) {
 			return &cmd.ListCommand{}, nil
 		},
+		"uninstall": func() (cli.Command, error) {
+			return &cmd.UninstallCommand{}, nil
+		},
 	}
 
 	exitStatus, err := c.Run()

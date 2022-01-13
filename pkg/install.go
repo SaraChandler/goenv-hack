@@ -8,23 +8,6 @@ import (
 
 // install a specified version of go
 func Install(version string) error {
-	fmt.Printf("Installing version %s\n", version)
-
-	// list downloadable versions
-	// list, err := listDownloadableVersions()
-
-	// if err != nil {
-	// 	return err
-	// }
-
-	// fmt.Printf("list downloadable version response = %s\n %s\n", list, err)
-
-	// // find version in the list that matches our version
-	// downloadable, err := isVersionInList(version, list)
-	// if err != nil {
-	// 	return err
-	// }
-	// fmt.Printf("IsVersionDownloadable returns= %v\n %s\n", downloadable, err)
 	// download it
 	os := runtime.GOOS
 	arch := runtime.GOARCH

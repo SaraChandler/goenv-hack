@@ -19,3 +19,14 @@ func TestisVersionInList(t *testing.T) {
   assert.Equal(t, inList, false)
   assert.NotNil(t, err, "expect an error for version not in list")
 }
+
+func TestmakeDownloadURL(t *testing.T) {
+  version := "1.16.6"
+  os := "darwin"
+  arch := "amd64"
+
+  url := makeDownloadURL(version, os, arch)
+  matchURL := "https://go.dev/dl/go1.16.6.darwin-amd64.tar.gz"
+
+  assert.Equal(t, url, matchURL, "expected url should match output url")
+}

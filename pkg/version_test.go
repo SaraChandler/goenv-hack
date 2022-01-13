@@ -56,7 +56,7 @@ func TestfuzzyCompare(t *testing.T){
 	versionB = "1.15"
 
 	wantFalse, err := fuzzyCompare(versionA, versionB)
-  gotFalse := false
+	gotFalse := false
 
 	assert.Equal(t, wantFalse, gotFalse, "expect fuzzy match to be false")
 	assert.Nil(t, err, "expect error to be nil")

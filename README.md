@@ -23,13 +23,9 @@ List currently installed go versions
 
 Usage: `goenv-hack list`
 
-### Init
-Initialize goenv-hack
-
-Usage: `goenv-hack init`
-This is required to initialize the install directory and path on the host system.
-
-** Note: do we remove this command and just have it as a default check before other commands? **
-
 
 ### Uninstall/Teardown TBD
+Uninstall Versions
+
+Usage: `goenv-hack uninstall <version>`
+Uninstalls specified version if it is not currently active.

@@ -1,21 +1,21 @@
 package cmd
 
 import (
-	"fmt"
+  "fmt"
 
-	"github.com/SaraChandler/goenv-hack/pkg"
+  "github.com/SaraChandler/goenv-hack/pkg"
 )
 
 type UninstallCommand struct {
-	version string
+  version string
 }
 
 func (i *UninstallCommand) Help() string {
-	return "Uninstall <version>\n"
+  return "Uninstall <version>\n"
 }
 
 func (i *UninstallCommand) Synopsis() string {
-	return "Uninstall versions of go"
+  return "Uninstall versions of go"
 }
 
 func (i *UninstallCommand) Run(args []string) int {

@@ -1,10 +1,10 @@
 package pkg
 
 import (
-	"fmt"
+  "fmt"
   "path/filepath"
   "runtime"
-	"os"
+  "os"
 )
 
 func UninstallVersion(version string) error {
